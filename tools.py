@@ -19,11 +19,8 @@ class tools:
     def __init__(self, bs, opt, nb_samples,K):
         self.mod_ = bs
         self.opt_ = opt
-        
-        
         self.nb_samples_ = nb_samples
         self.K_ = K
-        
         self.step_ = opt.T_ / opt.nbTimeSteps_ 
         self.allPath_ = self.CreateAllPath()
         self.Base_ =self.gram_schmidt()
@@ -103,13 +100,10 @@ class tools:
         return integration + self.Yt(path, self.opt_.T_) * self.Ut(polynom, self.opt_.T_, path)
     
     def psy(self,polynom, allpath):
-        self.x_appels.append(self.i)
-        self.i += 1
         M = len(self.allPath_)
         res = 0
         for path in self.allPath_:
             res += self.phi(polynom, path)
-        self.fx.append(res / M)
         return res / M
     
     def optimization(self):
@@ -124,13 +118,8 @@ class tools:
    
 
 def main():
-    print("todo")
+    print("tools")
     # votre code ici
 
 if __name__ == '__main__':
     main()          
-
-
-
-        
-
