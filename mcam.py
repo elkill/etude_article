@@ -12,9 +12,10 @@ from BlackScholesModel import BlackScholesModel
 from tools import tools
 import numpy as np
 from scipy.optimize import minimize
+import matplotlib.pyplot as plt
 
 #hyperparametre K
-K = 3
+K = 4
 # Lecture du fichier .txt
 with open('/home/othman/blm-master/dat/basket_d5.txt', 'r') as file:
     content = file.readlines()
@@ -64,28 +65,12 @@ for line in content:
     elif "geometric_put" in line:
         opt = Geometric(T, degree, dates, size, strike)
         """
-opt.typo()
 bs = BlackScholesModel(size,rho,r, sigma, divid, spot);
-bs.typo()
 tl = tools(bs, opt, n_samples,K)
 
 
-print(tl.Optim())
+print(tl.optimization())
+plt.plot(tl.fx, tl.x_appels)
 
-def fun(x):
-    print("call")
-    return (x[0] - 1)**2 + (x[1] - 2.5)**2
-
-bnds = ((0, None), (0, None))
-cons = ({'type': 'ineq', 'fun': lambda x:  x[0] - 2 * x[1] + 2},
-
-        {'type': 'ineq', 'fun': lambda x: -x[0] - 2 * x[1] + 6},
-
-        {'type': 'ineq', 'fun': lambda x: -x[0] + 2 * x[1] + 2})
-res = minimize(fun, (2, 0), method='SLSQP', bounds=bnds)
-print("res")
-print(res.x)
-print(res.fun)
-print(res)
 
 print("toto")
