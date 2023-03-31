@@ -5,19 +5,18 @@ Created on Thu Mar 30 02:13:35 2023
 
 @author: othman
 """
-import sys
-import json
+
 from Basket import Basket
+from Geometric import Geometric
+from Performance import Performance
 from BlackScholesModel import BlackScholesModel
 from tools import tools
-import numpy as np
-from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
-#hyperparametre K
-K = 4
 # Lecture du fichier .txt
-with open('/home/othman/blm-master/dat/basket_d5.txt', 'r') as file:
+#replace path with the path to your file
+path = '/home/othman/blm-master/dat/basket_d5.txt'
+with open(path, 'r') as file:
     content = file.readlines()
 # Initialisation des variables
 rho = degree = T = size = dates = n_samples = 0
@@ -26,12 +25,13 @@ type = ""
 strike = 0.0
 opt = None
 c = False
+
 # Extraction des paramètres
 for line in content:
     ine = line.strip()
     if "correlation" in line:
         rho = float(line.split()[-1])
-    elif "degree for polynomial regression" in line:
+    elif "degree" in line:
         degree = int(line.split()[-1])
     elif "option type" in line:
         type = line.split()[-1].strip()
@@ -58,19 +58,16 @@ for line in content:
     if type == "exchange" or type == "basket":
         opt = Basket(T, degree, dates, size, strike, coeffs)
         c = True
-        """
     elif type == "bestof":
         opt = Performance(T, degree, dates, size, strike, coeffs)
         c = True
     elif "geometric_put" in line:
         opt = Geometric(T, degree, dates, size, strike)
-        """
+
+#hyperparametre K
+K = degree
+
 bs = BlackScholesModel(size,rho,r, sigma, divid, spot);
 tl = tools(bs, opt, n_samples,K)
 
-
-print(tl.optimization())
-plt.plot(tl.fx, tl.x_appels)
-
-
-print("toto")
+print(tl.Price())
