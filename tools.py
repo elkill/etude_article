@@ -28,18 +28,13 @@ class tools:
         self.SetUpPaths(self.Lpath_, self.opt_.size_, self.opt_.nbTimeSteps_, self.opt_.T_, self.Mat)
         #self.Base_ = self.generateFunctions(self.K_)
         #print(self.Mat)
-        Base =self.gram_schmidt(self.opt_.nbTimeSteps_, nb_samples, self.Mat)
+        self.Base_ =self.gram_schmidt()
         #the two above are imutable for all c
         self.t_values = [self.step_ * i for i in range(opt.nbTimeSteps_+1)]
         #self.Yt_values = [self.Yt(t) for t in self]
         #the two above depend on c, should be computer for every c (using compute_integrals)
         self.Ut_integral = [0 for i in range(opt.nbTimeSteps_)]
         self.LambdaUYt_integral = [0 for i in range(opt.nbTimeSteps_)]
-        self.allPath = np.empty(n_samples, dtype=object)
-        for i in range(n_samples):
-            path = np.zeros((nbTimeSteps, 1))
-            asset(correl, path)
-            allPath[i] = path
         
     def typo(self):
         print("tools")
@@ -91,17 +86,12 @@ class tools:
     def inner_product(self, u, v, matrice):
         #print("innerprod")
         # Use the polarization identity to compute the inner product
-        u_plus_v_norm_sq = self.norm(u + v, matrice)
-        u_minus_v_norm_sq = self.norm(u - v, matrice)
+        u_plus_v_norm_sq = self.norm(u + v,self.opt_.nbTimeSteps_ + 1,self.nb_samples_, self.Mat)
+        u_minus_v_norm_sq = self.norm(u - v,self.opt_.nbTimeSteps_ + 1,self.nb_samples_ , self.Mat)
         result = (u_plus_v_norm_sq - u_minus_v_norm_sq) / 4.0
         
         return result
     
-    allPath = np.empty(n_samples, dtype=object)
-    for i in range(n_samples):
-    path = np.zeros((nbTimeSteps, 1))
-    asset(correl, path)
-    allPath[i] = path
     def gram_schmidt(self):
     
         A = np.identity(self.K_+1)
@@ -111,9 +101,9 @@ class tools:
             v = A[i]
             # Subtract the projection of v onto the span of the previous orthonormal vectors
             for j in range(i):
-                v -= self.inner_product(Q[j], A[i], allPath) * Q[j]
+                v -= self.inner_product(Q[j], A[i], self.Mat) * Q[j]
             # Normalize the resulting vector
-            Q[i] = v / norm(v, allPath)
+            Q[i] = v / self.norm(v,self.opt_.nbTimeSteps_ + 1,self.nb_samples_, self.Mat)
         return Q
     
     def Compute_integrals(self,c):
@@ -160,7 +150,7 @@ class tools:
     def Phi(self, c):
         print("call phi")
         integ = 0
-        for i in range (self.nbTimeSteps_):
+        for i in range (self.opt_.nbTimeSteps_):
             integ += quad((lambda x,cl=c, U = self.Ut, Y = self.Yt,Lam = self.Lambdat : Lam(x, cl)*U(x,cl)*Y(x)),i*self.step_, (i+1)*self.step_)[0]
         # Ut*Yt
         result = self.Ut(self.opt_.T_, c) * self.Yt(self.opt_.T_)
