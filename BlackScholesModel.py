@@ -44,7 +44,7 @@ class BlackScholesModel:
         del L, Gk
 
 def main():
-    print("todo")
+    print("BlackScholesModel")
     # votre code ici
 
 if __name__ == '__main__':
