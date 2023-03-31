@@ -34,3 +34,10 @@ class Performance:
             res = np.maximum(res, trans)
         res -= self.strike_
         return np.maximum(0, res)
+
+def main():
+    print("Performance")
+    # votre code ici
+
+if __name__ == '__main__':
+    main() 
