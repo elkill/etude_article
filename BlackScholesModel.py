@@ -20,9 +20,7 @@ class BlackScholesModel:
         self.divid_[:] = divid[:]
         self.spot_ = np.zeros(size)
         self.spot_[:] = spot[:]
-
-    def typo(self):
-        print("BS")
+             
         
     def asset(self, C, path, T, step, nbTimeSteps):
         Gk = np.zeros(self.size_)
@@ -33,7 +31,7 @@ class BlackScholesModel:
         value = 0.0
 
         path[0,:] = self.spot_
-        for k in range(1, nbTimeSteps+1):
+        for k in range(1, nbTimeSteps):
             Gk = np.random.normal(0, 1, self.size_)
             for d in range(self.size_):
                 div = self.divid_[d]
