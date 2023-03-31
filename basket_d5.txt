@@ -11,5 +11,5 @@ dividend rate                      <vector>   0.0
 option type                        <string>   exchange
 payoff coefficients                <vector>   -1
 dates                              <int>      10
-MC iterations                      <int>      30
+MC iterations                      <int>      50
 degree for polynomial regression   <int>      3
