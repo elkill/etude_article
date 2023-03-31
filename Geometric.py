@@ -30,3 +30,10 @@ class Geometric:
         prod -= self.strike_
         
         return - np.minimum(0, prod)
+
+def main():
+    print("Geometric")
+    # votre code ici
+
+if __name__ == '__main__':
+    main() 
