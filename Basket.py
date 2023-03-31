@@ -11,9 +11,7 @@ class Basket:
         self.coeffs_ = np.zeros(size)
         self.coeffs_ = coeffs
 
-    def typo(self):
-        print("basket")
-        
+
     def payoff(self, path, tau):
         St = np.zeros(self.size_)
         St[:] = path[tau,:]
